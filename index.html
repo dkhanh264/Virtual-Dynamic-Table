@@ -7,8 +7,6 @@
     <title>Virtual Dynamic Table</title>
   </head>
   <body>
-    
-
     <!-- Modal -->
     <div id="modal">
       <div class="modal-container">
@@ -17,6 +15,7 @@
           <button class="close-btn" onclick="closeModal()">&times;</button>
         </div>
         <form id="formAdd">
+          <input type="hidden" id="editId" value="" />
           <input type="text" name="name" placeholder="name" />
           <input type="email" name="email" placeholder="email" />
           <input type="tel" name="phone" placeholder="phone" />
@@ -28,15 +27,21 @@
           <input type="text" name="street" placeholder="street" />
           <input type="text" name="state" placeholder="state" />
           <input type="text" name="zipcode" placeholder="zipcode" />
+          <input type="text" name="finecode" placeholder="finecode" />
           <input type="text" name="genre" placeholder="genre" />
           <input type="text" name="building" placeholder="building" />
+          <input type="password" name="password" placeholder="password" />
           <input type="text" name="music" placeholder="music" />
           <input type="text" name="timezone" placeholder="timezone" />
+          <input type="text" name="ip" placeholder="ip" />
+          <input type="text" name="jd" placeholder="jd" />
+          <input type="text" name="typeofjob" placeholder="typeofjob" />
+          <input type="date" name="dob" placeholder="dob" />
           <input type="url" name="avatar" placeholder="avatar" />
           <input type="color" name="color" value="#cccccc" />
           <textarea name="desc" placeholder="description" rows="3"></textarea>
           <div class="form-actions">
-            <button type="submit">Tạo</button>
+            <button class="create-edit-btn" type="submit">Tạo</button>
             <button type="button" onclick="closeModal()">Hủy</button>
           </div>
         </form>
@@ -72,13 +77,13 @@
           <col style="width: 150px" />
           <col style="width: 180px" />
           <col style="width: 230px" />
+          <col style="width: 80px" />
         </colgroup>
         <thead></thead>
         <tbody></tbody>
       </table>
-      
     </div>
-    <button id="btnAdd" onclick="showModal()">Thêm Record</button>
+    <button id="btnAdd" onclick="showModal(() => { createBtn.innerText = 'Tạo'; })">Thêm Record</button>
 
     <script src="main.js"></script>
   </body>

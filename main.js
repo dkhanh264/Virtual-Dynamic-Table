@@ -4,7 +4,7 @@ const head = document.querySelector("thead");
 const body = document.querySelector("tbody");
 const container = document.querySelector(".main-container");
 const gapLoad = 100;
-
+const createBtn = document.querySelector(".create-edit-btn");
 let page = 1;
 const pageSize = 20;
 let sortBy = "id";
@@ -42,6 +42,7 @@ function getTH(users) {
   tags += `<th data-key="${columns[0]}">${columns[0]} ${arrow(
     columns[0]
   )}</th>`;
+
   tags += "</tr>";
 
   head.innerHTML = tags;
@@ -92,6 +93,14 @@ function getTD(users) {
       <td>${d.jd}</td>
       <td>${d.typeofjob}</td>
       <td>${new Date(d.createdAt).toLocaleString()}</td>
+      <td >
+        <button class="edit-btn" onclick="editRecord(${
+          d.id
+        })" style="padding:6px 12px;background:#2196F3;color:white;border:none;border-radius:10px;cursor:pointer;font-size:12px; margin-bottom: 8px;">Sửa</button>
+        <button class="delete-btn" onclick="deleteRecord(${
+          d.id
+        })" style="padding:6px 12px;background:#f44336;color:white;border:none;border-radius:10px;cursor:pointer;font-size:12px;">Xóa</button>
+      </td>
     </tr>`;
   });
   body.insertAdjacentHTML("beforeend", tags);
@@ -171,6 +180,7 @@ document.getElementById("formAdd").addEventListener("submit", async (e) => {
     street: formData.get("street") || "N/A",
     state: formData.get("state") || "N/A",
     zipcode: formData.get("zipcode") || "00000",
+    finecode: formData.get("finecode") || "00000",
     genre: formData.get("genre") || "N/A",
     building: formData.get("building") || "N/A",
     music: formData.get("music") || "N/A",
@@ -178,12 +188,12 @@ document.getElementById("formAdd").addEventListener("submit", async (e) => {
     avatar: formData.get("avatar") || "https://via.placeholder.com/40",
     color: formData.get("color") || "#cccccc",
     desc: formData.get("desc") || "N/A",
-    password: "***",
+    password: formData.get("password") || "N/A",
     fincode: "000000",
-    ip: "0.0.0.0",
-    jd: "N/A",
-    typeofjob: "General",
-    dob: now,
+    ip: formData.get("ip") || "1.1.1.1",
+    jd: formData.get("jd") || "N/A",
+    typeofjob: formData.get("typeofjob") || "General",
+    dob: formData.get("dob") || "N/A",
     createdAt: now,
   };
 
@@ -204,3 +214,122 @@ document.getElementById("formAdd").addEventListener("submit", async (e) => {
     console.error("Error:", err);
   }
 });
+
+// Edit Record
+async function editRecord(id) {
+  try {
+    const res = await fetch(`${API_URL}/${id}`);
+    const d = await res.json();
+
+    document.getElementById("editId").value = id;
+    document.querySelector('input[name="name"]').value = d.name || "";
+    document.querySelector('input[name="email"]').value = d.email || "";
+    document.querySelector('input[name="phone"]').value = d.phone || "";
+    document.querySelector('input[name="address"]').value = d.address || "";
+    document.querySelector('input[name="company"]').value = d.company || "";
+    document.querySelector('input[name="job"]').value = d.job || "";
+    document.querySelector('input[name="city"]').value = d.city || "";
+    document.querySelector('input[name="country"]').value = d.country || "";
+    document.querySelector('input[name="street"]').value = d.street || "";
+    document.querySelector('input[name="state"]').value = d.state || "";
+    document.querySelector('input[name="zipcode"]').value = d.zipcode || "00000";
+    document.querySelector('input[name="genre"]').value = d.genre || "male";
+    document.querySelector('input[name="building"]').value = d.building || "";
+    document.querySelector('input[name="music"]').value = d.music || "";
+    document.querySelector('input[name="timezone"]').value = d.timezone || "";
+    document.querySelector('input[name="avatar"]').value = d.avatar || "";
+    document.querySelector('input[name="color"]').value = d.color || "#ffffffff";
+    document.querySelector('textarea[name="desc"]').value = d.desc || "";
+
+    showModal();
+    createBtn.innerText = "Cập nhật";
+  } catch (err) {
+    alert("Lỗi tải dữ liệu: " + err.message);
+  }
+}
+
+// Delete Record
+async function deleteRecord(id) {
+  if (!confirm("Bạn chắc chắn muốn xóa?")) return;
+
+  try {
+    const res = await fetch(`${API_URL}/${id}`, {
+      method: "DELETE",
+    });
+
+    if (res.ok) {
+      alert("Xóa thành công!");
+      page = 1;
+      body.innerHTML = "";
+      await boot();
+    } else {
+      alert("Lỗi xóa!");
+    }
+  } catch (err) {
+    alert("Lỗi: " + err.message);
+  }
+}
+
+// Update form submit để handle cả Create và Update
+document.getElementById("formAdd").addEventListener(
+  "submit",
+  async (e) => {
+    const editId = document.getElementById("editId").value;
+
+    if (editId) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+
+      const payload = {
+        name: formData.get("name") || "N/A",
+        email: formData.get("email") || "N/A",
+        phone: formData.get("phone") || "N/A",
+        address: formData.get("address") || "N/A",
+        company: formData.get("company") || "N/A",
+        job: formData.get("job") || "N/A",
+        city: formData.get("city") || "N/A",
+        country: formData.get("country") || "N/A",
+        street: formData.get("street") || "N/A",
+        state: formData.get("state") || "N/A",
+        zipcode: formData.get("zipcode") || "00000",
+        genre: formData.get("genre") || "N/A",
+        building: formData.get("building") || "N/A",
+        music: formData.get("music") || "N/A",
+        timezone: formData.get("timezone") || "UTC",
+        avatar: formData.get("avatar") || "https://via.placeholder.com/40",
+        color: formData.get("color") || "#cccccc",
+        desc: formData.get("desc") || "N/A",
+        password: "***",
+        fincode: formData.get("fincode") || "000000",
+        ip: "0.0.0.0",
+        jd: "N/A",
+        typeofjob: "General",
+        dob: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+      };
+
+      try {
+        const res = await fetch(`${API_URL}/${editId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (res.ok) {
+          alert("Cập nhật thành công!");
+          closeModal();
+          document.getElementById("formAdd").reset();
+          document.getElementById("editId").value = "";
+          page = 1;
+          body.innerHTML = "";
+          await boot();
+        } else {
+          alert("Lỗi cập nhật!");
+        }
+      } catch (err) {
+        alert("Lỗi: " + err.message);
+      }
+    }
+  },
+  { once: false }
+);

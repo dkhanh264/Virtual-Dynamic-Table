@@ -158,7 +158,3 @@ img {
 .form-actions button[type="button"] {
   background: #f44336;
 }
-
-.form-actions button[type="button"]:hover {
-  background: #da190b;
-}
