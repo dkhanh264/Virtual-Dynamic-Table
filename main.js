@@ -5,6 +5,8 @@ const body = document.querySelector("tbody");
 const container = document.querySelector(".main-container");
 const gapLoad = 100;
 const createBtn = document.querySelector(".create-edit-btn");
+const btnAdd = document.getElementById("btnAdd");
+const hdModal = document.querySelector(".header-modal");
 let page = 1;
 const pageSize = 20;
 let sortBy = "id";
@@ -162,6 +164,12 @@ container.addEventListener("scroll", async () => {
     await boot();
     isLoading = false;
   }
+});
+
+btnAdd.addEventListener("click", () => {
+  showModal();
+  createBtn.innerText = "Tạo";
+  hdModal.innerText = "Tạo Record Mới";
 });
 
 head.addEventListener("click", (e) => {
@@ -331,6 +339,7 @@ async function editRecord(id) {
 
     showModal();
     createBtn.innerText = "Cập nhật";
+    hdModal.innerText = "Cập nhật Record";
   } catch (err) {
     alert("Lỗi tải dữ liệu: " + err.message);
   }
