@@ -10,6 +10,7 @@ const pageSize = 20;
 let sortBy = "id";
 let order = "desc";
 let isLoading = false;
+let hasMore = true;
 async function getUsers() {
   try {
     const url = new URL(API_URL);
@@ -28,25 +29,43 @@ async function getUsers() {
 }
 
 function getTH(users) {
-  const columns = Object.keys(users[0]);
-
   let tags = "<tr>";
-  tags += `<th data-key="${columns[columns.length - 1]}">${
-    columns[columns.length - 1]
-  } ${arrow(columns[columns.length - 1])}</th>`;
-  for (let i = 1; i < columns.length - 1; i++) {
-    tags += `<th data-key="${columns[i]}">${columns[i]} ${arrow(
-      columns[i]
-    )}</th>`;
-  }
-  tags += `<th data-key="${columns[0]}">${columns[0]} ${arrow(
-    columns[0]
-  )}</th>`;
+
+  // === SẮP XẾP VỊ TRÍ HEADER Ở ĐÂY ===
+  // Đổi thứ tự các dòng dưới để đổi vị trí cột
+  tags += `<th>Actions</th>`;
+  tags += `<th data-key="id">id ${arrow("id")}</th>`;
+   tags += `<th data-key="avatar">avatar ${arrow("avatar")}</th>`;
+  tags += `<th data-key="name">name ${arrow("name")}</th>`;
+  tags += `<th style="text-align:center" data-key="color">color ${arrow("color")}</th>`;
+  tags += `<th data-key="address">address ${arrow("address")}</th>`;
+  tags += `<th data-key="genre">genre ${arrow("genre")}</th>`;
+  tags += `<th data-key="desc">desc ${arrow("desc")}</th>`;
+ 
+  tags += `<th data-key="email">email ${arrow("email")}</th>`;
+  tags += `<th data-key="phone">phone ${arrow("phone")}</th>`;
+  tags += `<th data-key="timezone">timezone ${arrow("timezone")}</th>`;
+  tags += `<th data-key="building">building ${arrow("building")}</th>`;
+  tags += `<th data-key="music">music ${arrow("music")}</th>`;
+  tags += `<th data-key="password">password ${arrow("password")}</th>`;
+  tags += `<th data-key="city">city ${arrow("city")}</th>`;
+  tags += `<th data-key="country">country ${arrow("country")}</th>`;
+  tags += `<th data-key="street">street ${arrow("street")}</th>`;
+  tags += `<th data-key="state">state ${arrow("state")}</th>`;
+  tags += `<th data-key="zipcode">zipcode ${arrow("zipcode")}</th>`;
+  tags += `<th data-key="company">company ${arrow("company")}</th>`;
+  tags += `<th data-key="dob">dob ${arrow("dob")}</th>`;
+  tags += `<th data-key="fincode">fincode ${arrow("fincode")}</th>`; // Lưu ý: tránh nhầm "finecode"
+  tags += `<th data-key="ip">ip ${arrow("ip")}</th>`;
+  tags += `<th data-key="job">job ${arrow("job")}</th>`;
+  tags += `<th data-key="jd">jd ${arrow("jd")}</th>`;
+  tags += `<th data-key="typeofjob">typeofjob ${arrow("typeofjob")}</th>`;
+  tags += `<th data-key="createdAt">createdAt ${arrow("createdAt")}</th>`;
 
   tags += "</tr>";
-
   head.innerHTML = tags;
 }
+
 
 function arrow(col) {
   if (col !== sortBy) return "";
@@ -56,24 +75,33 @@ function arrow(col) {
 function getTD(users) {
   let tags = "";
   users.forEach((d) => {
-    tags += `<tr style="background-color: ${d.color};">
+    tags += `<tr style="background-color: ${d.color}10; color: ${d.color};">
+    <td >
+        <button class="edit-btn" onclick="editRecord(${
+          d.id
+        })" style="padding:10px 12px;background:#63ACDC;color:white;border:none;border-radius:10px;cursor:pointer;font-size:12px; margin-right: 8px;"><i class="fa-solid fa-pen"></i></button>
+        <button class="delete-btn" onclick="deleteRecord(${
+          d.id
+        })" style="padding:10px 12px;background:#DF8B8B;color:white;border:none;border-radius:10px;cursor:pointer;font-size:12px;"><i class="fa-solid fa-trash"></i></button>
+      </td>
       <td>${d.id}</td>
-      <td>${d.name}</td>
       <td><img src="${
         d.avatar
-      }" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:6px"></td>
+      }" alt="" ></td>
+      <td>${d.name}</td>
+      <td style="display:flex;width:100%;flex-direction:column;justify-content:center;align-items:center">
+          <div style="background-color:${
+            d.color
+          };width:50px;height:30px;border-radius:20px;box-shadow: 2px 2px 2px 2px #dadadaff;margin:6px 0 12px"></div>${
+      d.color
+    }
+      </td>
       <td>${d.address}</td>
       <td>${d.genre}</td>
       <td style="width:1100px;height:50px;overflow:hidden;text-overflow:ellipsis;">${
         d.desc
       }</td>
-      <td style="display:flex;width:100%;flex-direction:column;justify-content:center;align-items:center">
-          <div style="background-color:${
-            d.color
-          };width:50px;height:30px;border-radius:20px;box-shadow:2px 2px 2px 2px #2e2e2e;margin:6px 0 12px"></div>${
-      d.color
-    }
-      </td>
+      
       <td>${d.email}</td>
       <td>${d.phone}</td>
       <td>${d.timezone}</td>
@@ -93,20 +121,14 @@ function getTD(users) {
       <td>${d.jd}</td>
       <td>${d.typeofjob}</td>
       <td>${new Date(d.createdAt).toLocaleString()}</td>
-      <td >
-        <button class="edit-btn" onclick="editRecord(${
-          d.id
-        })" style="padding:6px 12px;background:#2196F3;color:white;border:none;border-radius:10px;cursor:pointer;font-size:12px; margin-bottom: 8px;">Sửa</button>
-        <button class="delete-btn" onclick="deleteRecord(${
-          d.id
-        })" style="padding:6px 12px;background:#f44336;color:white;border:none;border-radius:10px;cursor:pointer;font-size:12px;">Xóa</button>
-      </td>
+      
     </tr>`;
   });
   body.insertAdjacentHTML("beforeend", tags);
 }
 
 async function boot() {
+  if (!hasMore) return;
   const users = await getUsers();
   if (!users.length) return;
 
@@ -115,7 +137,14 @@ async function boot() {
     body.innerHTML = "";
   }
 
+  if (!users.length) { 
+    hasMore = false;
+    return;
+  }
+
   getTD(users);
+
+  if (users.length < pageSize) hasMore = false;
 }
 
 boot();

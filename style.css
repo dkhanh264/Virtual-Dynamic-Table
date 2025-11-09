@@ -10,10 +10,10 @@
 
 .main-container {
   display: flex;
-  max-width: 1000px;
-  max-height: 500px;
+  max-width: 1440px;
+  max-height: 650px;
   margin: 20px auto;
-
+position: relative;
   overflow-x: auto;
   overflow-y: auto;
   border: 1px solid #eee;
@@ -22,10 +22,11 @@
 }
 
 img {
-  height: 50px;
-  width: 50px;
+  height: 60px;
+  width: 60px;
   object-fit: cover;
-  border-radius: 100%;
+  border-radius: 100% !important;
+  border: #ffffff 3px solid;
 }
 
 .content-table {
@@ -50,6 +51,7 @@ img {
 
 .content-table td {
   padding: 12px 15px;
+  
 }
 
 .content-table tbody tr {
@@ -58,15 +60,17 @@ img {
 
 /* Add Record Button */
 #btnAdd {
+  width: 60px;
+  height: 60px;
   display: block;
-  margin: 15px auto;
-  padding: 10px 20px;
-  background: #1194d1;
+  position: fixed;
+  background: #2692c4;
   color: white;
   border: none;
-  border-radius: 116px;
-  cursor: pointer;
-  font-size: 16px;
+  font-size: 32px;
+  border-radius: 100%;
+  bottom: 60px;
+right: 80px;
 }
 
 
