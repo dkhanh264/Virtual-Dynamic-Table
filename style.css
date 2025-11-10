@@ -13,7 +13,6 @@
   max-width: 1440px;
   max-height: 650px;
   margin: 20px auto;
-position: relative;
   overflow-x: auto;
   overflow-y: auto;
   border: 1px solid #eee;
@@ -35,6 +34,7 @@ img {
   min-width: 400px;
   table-layout: fixed;
   width: 100%;
+  position: relative;
 }
 
 .content-table thead tr {
@@ -71,6 +71,7 @@ img {
   border-radius: 100%;
   bottom: 60px;
 right: 80px;
+z-index: 100;
 }
 
 

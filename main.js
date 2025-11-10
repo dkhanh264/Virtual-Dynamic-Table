@@ -228,12 +228,12 @@ if(createBtn.innerText === "Cập nhật"){
         avatar: formData.get("avatar") || "https://via.placeholder.com/40",
         color: formData.get("color") || "#cccccc",
         desc: formData.get("desc") || "N/A",
-        password: "***",
+        password: formData.get("password") || "N/A",
         fincode: formData.get("fincode") || "000000",
-        ip: "0.0.0.0",
-        jd: "N/A",
-        typeofjob: "General",
-        dob: new Date().toISOString(),
+        ip: formData.get("ip") || "1.1.1.1",
+    jd: formData.get("jd") || "N/A",
+        typeofjob: formData.get("typeofjob") || "General",
+    dob: formData.get("dob") || "N/A",
         createdAt: new Date().toISOString(),
       };
 
