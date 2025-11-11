@@ -33,8 +33,6 @@ async function getUsers() {
 function getTH(users) {
   let tags = "<tr>";
 
-  // === SẮP XẾP VỊ TRÍ HEADER Ở ĐÂY ===
-  // Đổi thứ tự các dòng dưới để đổi vị trí cột
   tags += `<th>Actions</th>`;
   tags += `<th data-key="id">id ${arrow("id")}</th>`;
    tags += `<th data-key="avatar">avatar ${arrow("avatar")}</th>`;
@@ -333,7 +331,13 @@ async function editRecord(id) {
     document.querySelector('input[name="building"]').value = d.building || "";
     document.querySelector('input[name="music"]').value = d.music || "";
     document.querySelector('input[name="timezone"]').value = d.timezone || "";
+    document.querySelector('input[name="password"]').value = d.password || "";
+    document.querySelector('input[name="ip"]').value = d.ip || "";
+    document.querySelector('input[name="jd"]').value = d.jd || "";
+    document.querySelector('input[name="typeofjob"]').value = d.typeofjob || "";
+    document.querySelector('input[name="fincode"]').value = d.fincode || "000000";
     document.querySelector('input[name="avatar"]').value = d.avatar || "";
+    document.querySelector('input[name="dob"]').value = d.dob || "";
     document.querySelector('input[name="color"]').value = d.color || "#ffffffff";
     document.querySelector('textarea[name="desc"]').value = d.desc || "";
 
