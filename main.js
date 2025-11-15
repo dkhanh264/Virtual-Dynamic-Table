@@ -77,11 +77,6 @@ function isValidEmail(v) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 }
 
-function isValidPhone(v) {
-  if (!v) return true;
-  return /^[0-9()+\-\s]{6,20}$/.test(v);
-}
-
 function isValidURL(v) {
   if (!v) return true;
   return /^(https?:\/\/).+/i.test(v);
@@ -226,10 +221,6 @@ document.getElementById("formAdd").addEventListener("submit", async (e) => {
 
   if (!isValidEmail(emailVal)) {
     alert("Email không hợp lệ");
-    return;
-  }
-  if (!isValidPhone(phoneVal)) {
-    alert("Số điện thoại không hợp lệ");
     return;
   }
   if (!isValidURL(avatarVal)) {
