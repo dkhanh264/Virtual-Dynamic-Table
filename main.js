@@ -79,7 +79,7 @@ function isValidEmail(v) {
 
 function isValidPhone(v) {
   if (!v) return true;
-  return /^0\d{9}$/.test(v);
+  return /^[0-9()+\-\s]{6,20}$/.test(v);
 }
 
 function isValidURL(v) {
